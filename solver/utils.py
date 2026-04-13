@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Iterable, List
 
 
-def round_root(root: float, integer_tol: float = 1e-6) -> float | int:
+def round_root(root: float, integer_tol: float = 1e-4) -> float | int:
     nearest = round(root)
     if abs(root - nearest) < integer_tol:
         return int(nearest)

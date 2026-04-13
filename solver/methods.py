@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import math
-from typing import Callable, List, Optional, Tuple
+from typing import List, Optional, Tuple
 
 
 EPS = 1e-10
@@ -91,12 +91,20 @@ def cardano_method(coeffs: List[float]) -> List[float]:
 
 
 def newton_method(coeffs: List[float]) -> Optional[float]:
-    for start in range(-10, 11):
+    for integer_guess in range(-20, 21):
+        if abs(poly_value(coeffs, float(integer_guess))) < 1e-9:
+            return float(integer_guess)
+
+    for start in range(-20, 21):
         x = float(start)
         for _ in range(MAX_ITERS):
             fx = poly_value(coeffs, x)
+            if abs(fx) < 1e-8:
+                return x
             dfx = poly_derivative_value(coeffs, x)
             if abs(dfx) < EPS:
+                if abs(fx) < 1e-6:
+                    return x
                 break
             nx = x - fx / dfx
             if abs(nx - x) < 1e-9 and abs(poly_value(coeffs, nx)) < 1e-6:
